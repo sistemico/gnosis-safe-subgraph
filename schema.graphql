@@ -1,0 +1,100 @@
+#
+# TODO: add description to field
+#
+
+type Account @entity {
+  id: ID!
+
+  " Number of wallets this account created "
+  createdWalletCount: BigInt!
+
+  createdWallets: [Wallet!]! @derivedFrom(field: "creator")
+
+  " Number of wallets this account owns "
+  walletCount: BigInt!
+
+  ownedWallets: [WalletOwner!]! @derivedFrom(field: "account")
+}
+
+type WalletOwner @entity {
+  id: ID!
+  wallet: Wallet!
+  account: Account!
+}
+
+type Wallet @entity {
+  id: ID!
+
+  factory: Factory!
+  proxy: Bytes!
+  singleton: Bytes
+
+  created: BigInt!
+  creator: Account!
+  deployment: DeploymentLog!
+
+  version: String!
+
+  threshold: BigInt!
+  ownerCount: BigInt!
+  owners: [WalletOwner!]! @derivedFrom(field: "wallet")
+}
+
+type Factory @entity {
+  id: ID!
+  address: Bytes!
+  added: BigInt!
+  walletCount: BigInt!
+  wallets: [Wallet!]! @derivedFrom(field: "factory")
+}
+
+interface Log @entity {
+  block: BigInt!
+  timestamp: BigInt!
+  transaction: Bytes!
+}
+
+interface WalletEvent implements Log @entity {
+  wallet: Wallet!
+}
+
+type DeploymentLog implements WalletEvent @entity(immutable: true) {
+  id: ID!
+  sid: String! # just for debugging
+  wallet: Wallet!
+  factory: Factory!
+  creator: Account!
+  block: BigInt!
+  timestamp: BigInt!
+  transaction: Bytes!
+}
+
+type OwnerAddedLog implements WalletEvent @entity(immutable: true) {
+  id: ID!
+  wallet: Wallet!
+  newOwner: Account!
+  ownerCount: BigInt!
+  block: BigInt!
+  timestamp: BigInt!
+  transaction: Bytes!
+}
+
+type OwnerRemovedLog implements WalletEvent @entity(immutable: true) {
+  id: ID!
+  wallet: Wallet!
+  ownerRemoved: Account!
+  ownerCount: BigInt!
+  block: BigInt!
+  timestamp: BigInt!
+  transaction: Bytes!
+}
+
+type ThresholdChangedLog implements WalletEvent @entity(immutable: true) {
+  id: ID!
+  wallet: Wallet!
+  previousThreshold: BigInt!
+  nextThreshold: BigInt!
+  block: BigInt!
+  timestamp: BigInt!
+  transaction: Bytes!
+}

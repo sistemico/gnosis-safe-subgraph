@@ -1,0 +1,28 @@
+# Packages cache
+node_modules/
+
+# Graph CLI artifacts
+/generated
+/build
+
+# Matchstick binaries
+tests/.*
+matchstick
+
+# Test coverage tools
+tests/.tools/
+
+# IDE config
+.idea
+
+# OS dependent files
+.DS_Store
+
+# Yarn 3 files
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

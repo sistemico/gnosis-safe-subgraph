@@ -1,0 +1,22 @@
+{
+  "name": "gnosis-safe-subgraph",
+  "version": "0.0.1",
+  "private": true,
+  "repository": "https://github.com/sistemico/gnosis-safe-subgraph.git",
+  "license": "GPL-3.0-only",
+  "author": "Sebastián Galiano <sgaliano@gmail.com>",
+  "scripts": {
+    "build": "graph build",
+    "codegen": "graph codegen",
+    "test": "graph test",
+    "hosted-service:auth": "graph auth https://api.thegraph.com/deploy/",
+    "hosted-service:deploy": "graph deploy --product hosted-service"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.35.0",
+    "@graphprotocol/graph-ts": "0.29.0"
+  },
+  "devDependencies": {
+    "matchstick-as": "^0.5.0"
+  }
+}

@@ -1,0 +1,155 @@
+specVersion: 0.0.5
+
+description: Gnosis Safe multi-signature smart contract wallets
+repository: https://github.com/sistemico/gnosis-safe-subgraph
+
+schema:
+  file: ./schema.graphql
+
+dataSources:
+  - name: ProxyFactory@0.1.0
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: ProxyFactory
+      address: '0x88cd603a5dc47857d02865bbc7941b588c533263'
+      startBlock: 6766273
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/mappings/factory.ts
+      abis:
+        - name: ProxyFactory
+          file: ./abis/0.1.0/ProxyFactory.json
+        - name: GnosisSafe
+          file: ./abis/GnosisSafe.json
+      entities:
+        - Account
+        - Factory
+        - Wallet
+      eventHandlers:
+        - event: ProxyCreation(address)
+          handler: handleProxyCreation
+  - name: ProxyFactory@1.0.0
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: ProxyFactory
+      address: '0x12302fe9c02ff50939baaaaf415fc226c078613c'
+      startBlock: 7450116
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/mappings/factory.ts
+      abis:
+        - name: ProxyFactory
+          file: ./abis/1.0.0/ProxyFactory.json
+        - name: GnosisSafe
+          file: ./abis/GnosisSafe.json
+      entities:
+        - Account
+        - Factory
+        - Wallet
+      eventHandlers:
+        - event: ProxyCreation(address)
+          handler: handleProxyCreation
+  - name: ProxyFactory@1.1.0
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: ProxyFactory
+      address: '0x50e55af101c777ba7a1d560a774a82ef002ced9f'
+      startBlock: 8915731
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/mappings/factory.ts
+      abis:
+        - name: ProxyFactory
+          file: ./abis/1.1.0/ProxyFactory.json
+        - name: GnosisSafe
+          file: ./abis/GnosisSafe.json
+      entities:
+        - Account
+        - Factory
+        - Wallet
+      eventHandlers:
+        - event: ProxyCreation(address)
+          handler: handleProxyCreation
+  - name: ProxyFactory@1.1.1
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: ProxyFactory
+      address: '0x76e2cfc1f5fa8f6a5b3fc4c8f4788f0116861f9b'
+      startBlock: 9084508
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/mappings/factory.ts
+      abis:
+        - name: ProxyFactory
+          file: ./abis/1.1.1/ProxyFactory.json
+        - name: GnosisSafe
+          file: ./abis/GnosisSafe.json
+      entities:
+        - Account
+        - Factory
+        - Wallet
+        - Wallet
+      eventHandlers:
+        - event: ProxyCreation(address)
+          handler: handleProxyCreation
+  - name: ProxyFactory@1.3.0
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: GnosisSafeProxyFactory
+      address: '0xa6b71e26c5e0845f74c812102ca7114b6a896ab2'
+      startBlock: 12504126
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/mappings/factory.ts
+      abis:
+        - name: GnosisSafeProxyFactory
+          file: ./abis/1.3.0/GnosisSafeProxyFactory.json
+        - name: GnosisSafe
+          file: ./abis/GnosisSafe.json
+      entities:
+        - Account
+        - Factory
+        - Wallet
+      eventHandlers:
+        - event: ProxyCreation(address,address)
+          handler: handleProxyCreation
+
+templates:
+  - name: GnosisSafe
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: GnosisSafe
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/mappings/wallet.ts
+      abis:
+        - name: GnosisSafe
+          file: ./abis/GnosisSafe.json
+      entities:
+        - Account
+        - Wallet
+      eventHandlers:
+        - event: AddedOwner(address)
+          handler: handleAddedOwner
+        - event: RemovedOwner(address)
+          handler: handleRemovedOwner
+        - event: ChangedThreshold(uint256)
+          handler: handleChangedThreshold
